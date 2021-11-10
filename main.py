@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
 from typing import Optional, Awaitable
 
 import tornado.ioloop
@@ -35,7 +38,7 @@ class LangDetectHandle(tornado.web.RequestHandler):
             resp = {'code': 200, 'msg': 'ok', 'data': result_list}
         else:
             self.set_status(400)
-            resp = {'code': 201, 'msg': '待识别的文本内容���空或不正确，请检查', 'source': raw_body}
+            resp = {'code': 201, 'msg': '待识别的文本内容为空或不正确，请检查', 'source': raw_body}
 
         self.write(resp)
 
