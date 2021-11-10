@@ -28,10 +28,16 @@ class LangDetectHandle(tornado.web.RequestHandler):
 
         result_list = []
         for i, text in enumerate(json_body):
+            try:
+                detect1 = detect(text)
+            except BaseException:
+                print('Error: ', text)
+                detect1 = ''
+
             # 处理识别结果
             result_list.append({
                 'text': text,
-                'language': detect(text)
+                'language': detect1
             })
 
         if json_body and result_list:
