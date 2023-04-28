@@ -1,61 +1,24 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-from typing import Optional, Awaitable
+import os
 
 import tornado.ioloop
-import tornado.web
 
-import json
-import tornado.web
+from LangDetectHandler import LangDetectHandler
 
-from langdetect import detect
-from langdetect import DetectorFactory
-
-
-class LangDetectHandle(tornado.web.RequestHandler):
-    def data_received(self, chunk: bytes) -> Optional[Awaitable[None]]:
-        pass
-
-    def post(self):
-        raw_body = self.request.body.decode('utf-8')
-        try:
-            json_body = json.loads(raw_body)
-        except BaseException:
-            json_body = {}
-
-        DetectorFactory.seed = 0
-
-        result_list = []
-        for i, text in enumerate(json_body):
-            try:
-                detect1 = detect(text)
-            except BaseException:
-                print('Error: ', text)
-                detect1 = ''
-
-            # 处理识别结果
-            result_list.append({
-                'text': text,
-                'language': detect1
-            })
-
-        if json_body and result_list:
-            resp = {'code': 200, 'msg': 'ok', 'data': result_list}
-        else:
-            self.set_status(400)
-            resp = {'code': 201, 'msg': '待识别的文本内容为空或不正确，请检查', 'source': raw_body}
-
-        self.write(resp)
-
-
-def make_app():
-    return tornado.web.Application([
-        (r"/", LangDetectHandle),
-    ])
-
+app = tornado.web.Application([
+    (r"/", LangDetectHandler),
+])
 
 if __name__ == "__main__":
-    app = make_app()
-    app.listen(8899)
+    num_processes = int(os.getenv('NUM_PROCESSES', '4'))
+    port = int(os.getenv('LISTEN_PORT', '8899'))
+
+    print(f"num_processes: {num_processes}")
+    print(f"listen_port: {port}")
+
+    app.num_processes = num_processes
+    app.listen(port)
+
     tornado.ioloop.IOLoop.current().start()
