@@ -1,23 +1,24 @@
 FROM python:3.11-alpine
 
-ENV NUM_PROCESSES=4
+ENV NUM_PROCESSES=1
 ENV LISTEN_PORT=8899
 
 # 将工作目录设置为 /app
 WORKDIR /app
 
-RUN pip install --upgrade pip \
-    && adduser -D langdetect
+USER root
 
-COPY --chown=langdetect:langdetect main.py main.py
-COPY --chown=langdetect:langdetect LangDetectHandler.py LangDetectHandler.py
-COPY --chown=langdetect:langdetect requirements.txt requirements.txt
+# 下载模型
+ADD https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin /app/database/lid.176.bin
 
-USER langdetect
+ADD . .
 
-RUN pip install -r requirements.txt
+RUN apk add alpine-sdk \
+    && pip install --upgrade pip \
+    && pip install -r requirements.txt \
+    && chmod +x /app/entrypoint.sh
 
-CMD ["python", "/app/main.py"]
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 EXPOSE $LISTEN_PORT
 

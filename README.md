@@ -19,7 +19,7 @@ docker run -d \
 
 自定义端口号、进程数量：
 
-- `-e NUM_PROCESSES=200` 表示运行 **200** 个进程，默认 *4 个进程*
+- `-e NUM_PROCESSES=2` 表示运行 **2** 个进程，默认 *1 个进程*
 - `-e LISTEN_PORT=8866` 表示监听 **8866** 端口，默认监听 *8899* 端口
 
 ```shell
@@ -92,3 +92,10 @@ docker run -d \
 ## 缺点
 
 识别会不太准确
+
+
+
+下载模型
+```shell
+https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
+```
