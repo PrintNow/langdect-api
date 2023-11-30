@@ -1,6 +1,7 @@
 .idea
 .git
 venv/
+database/lid.176.bin
 
 .gitignore
 README.md

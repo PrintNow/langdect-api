@@ -1,4 +1,4 @@
-FROM python:3.11-alpine
+FROM python:3-alpine
 
 ENV NUM_PROCESSES=1
 ENV LISTEN_PORT=8899
@@ -13,8 +13,7 @@ ADD https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin /app/d
 
 ADD . .
 
-RUN apk add alpine-sdk \
-    && pip install --upgrade pip \
+RUN apk add --no-cache alpine-sdk \
     && pip install -r requirements.txt \
     && chmod +x /app/entrypoint.sh
 

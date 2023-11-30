@@ -99,3 +99,8 @@ docker run -d \
 ```shell
 https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
 ```
+
+使用代理构建
+```shell
+docker build --build-arg HTTPS_PROXY=http://10.10.1.11:7890 -t shine09/langdetect-api:2.0.0-alpha .
+```
