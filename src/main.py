@@ -15,7 +15,7 @@ from handler.TextRecognitionHandler import TextRecognitionHandler
 def make_app(model):
     return tornado.web.Application([
         (r"/", LangDetectHandler),
-        (r"/recognize", TextRecognitionHandler, dict(model=model)),
+        (r"/v2", TextRecognitionHandler, dict(model=model)),
     ])
 
 
